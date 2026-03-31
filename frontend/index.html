@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+        .tab-btn { flex: 1; padding: 1rem; background: none; border: none; color: var(--text-muted); font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .center-btn { display: flex; justify-content: center; margin-top: 1.5rem; }
+        #canvasElement { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container grid-2">
+        <!-- Live Camera Feed Section -->
+        <div class="glass-card">
+            <h3>Live Camera</h3>
+            <div class="video-container">
+                <video id="videoElement" autoplay playsinline></video>
+                <canvas id="canvasElement"></canvas>
+            </div>
+            <div id="statusMsg" class="status-msg"></div>
+            <div class="center-btn" style="margin-top: 1rem;">
+                <button class="btn btn-primary" id="startCamBtn">Start Camera</button>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="glass-card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('checkin')">Check In</button>
+                <button class="tab-btn" onclick="switchTab('register')">Register New</button>
+            </div>
+
+            <!-- Check In Tab -->
+            <div id="checkinTab" class="tab-content active">
+                <h3>Mark Attendance</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Align your face in the camera and click to securely check in. The system guarantees anti-spoofing.</p>
+                <div class="center-btn">
+                    <button class="btn btn-success" id="checkInBtn" style="width: 100%; font-size: 1.25rem; padding: 1rem;" disabled>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        Verify & Check In
+                    </button>
+                </div>
+                <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; text-align: center;">
+                    <a href="/dashboard" style="color: var(--primary); text-decoration: none; font-size: 1rem; font-weight: 500;">Go to Admin Dashboard &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Register Tab -->
+            <div id="registerTab" class="tab-content">
+                <h3>Register Student</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="text" id="regEmpId" class="form-control" required placeholder="e.g. STU001">
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="regName" class="form-control" required placeholder="John Doe">
+                    </div>
+                    <div class="center-btn">
+                        <button type="submit" class="btn btn-primary" id="registerBtn" style="width: 100%;" disabled>Capture Face & Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId + 'Tab').classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+    <script src="/js/camera.js"></script>
+</body>
+</html>
